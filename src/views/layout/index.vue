@@ -1,17 +1,22 @@
 <script lang="tsx">
 import { defineComponent, ref, provide } from "vue";
-import { RouterView } from "vue-router";
+import { RouterView, useRoute } from "vue-router";
 import { Layout, LayoutContent, LayoutHeader, LayoutSider, Menu } from 'ant-design-vue';
 import MyMenuItem from '@/components/MenuItem/index.vue';
 import { routes } from '@/route';
 import LogoPng from '@/assets/logo.png';
 import MyHeader from "@/components/MyHeader/index.vue";
+import { Key } from "ant-design-vue/lib/vc-table/interface";
+import { useRouteHistoryStore } from "@/store/routeHistory";
 
 
 export default defineComponent({
       setup() {
             const collapsed = ref<boolean>(false);
+            const route = useRoute();
             provide('collapsed', collapsed);
+            const { $state: { selectdOpenKeys }, editSelectdOpenKeys } = useRouteHistoryStore();
+
             return () => (
                   <Layout hasSider={true}>
                         <Layout hasSider={true}>
@@ -20,7 +25,9 @@ export default defineComponent({
                                           <img src={LogoPng} />
                                           {collapsed.value || <span>VUE3+TSX</span>}
                                     </div>
-                                    <Menu mode="inline" theme='dark'>
+                                    <Menu mode="inline" theme='dark'
+                                          selectedKeys={[route.path]} openKeys={selectdOpenKeys}
+                                          onOpenChange={(openKeys: Key[]) => editSelectdOpenKeys(openKeys)}>
                                           <MyMenuItem routesMenu={routes[0].children!} />
                                     </Menu>
                               </LayoutSider>
