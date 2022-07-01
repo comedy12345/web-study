@@ -1,4 +1,4 @@
-import { useRouteHistoryStore } from "@/stores/routeHistory";
+import { useRouteHistoryStore } from "@/store/routeHistory";
 import { useRoute, useRouter } from "vue-router";
 import { v4 as uuidv4 } from 'uuid';
 export function useLayout() {

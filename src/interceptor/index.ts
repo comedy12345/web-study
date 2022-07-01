@@ -1,5 +1,5 @@
-import {router} from '../router';
-import {useRouteHistoryStore} from "../stores/routeHistory";
+import {router} from '@/route';
+import {useRouteHistoryStore} from "@/store/routeHistory";
 
 router.beforeEach((to, from) => {
       const {$state:{routeHistorys}}=useRouteHistoryStore();
