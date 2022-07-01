@@ -27,7 +27,7 @@ export default defineComponent({
                                     </div>
                                     <Menu mode="inline" theme='dark'
                                           selectedKeys={[route.path]} openKeys={selectdOpenKeys}
-                                          onOpenChange={(openKeys: Key[]) => editSelectdOpenKeys(openKeys)}>
+                                          onOpenChange={(openKeys: Key[]) => editSelectdOpenKeys(openKeys, "upd")}>
                                           <MyMenuItem routesMenu={routes[0].children!} />
                                     </Menu>
                               </LayoutSider>

@@ -12,9 +12,12 @@ export const useRouteHistoryStore = defineStore('routeHistory', {
             }
       },
       actions:{
-            editSelectdOpenKeys(newVal:Key[]){
-                  this.selectdOpenKeys=newVal;
-                  sessionStorage.setItem('selectdOpenKeys',JSON.stringify(newVal));
+            editSelectdOpenKeys(newVal:Key[],type:string){
+                  if(type==='upd') this.selectdOpenKeys=newVal;
+                  if(type==='add') {
+                        this.selectdOpenKeys.find(item=>item===newVal[0])||this.selectdOpenKeys.push(...newVal);
+                  };
+                  sessionStorage.setItem('selectdOpenKeys',JSON.stringify(this.selectdOpenKeys));
             }
       }
 })    
