@@ -41,6 +41,11 @@ export const routes:RouteRecordRaw[] =[
                         name:'测试二',
                         path:'/test2',
                         component:() => import('@/views/test2/index.vue')
+                  },
+                  {
+                        name:'菜单管理',
+                        path:'/menuMannagement',
+                        component:() => import('@/views/menuManagement/index.vue')
                   }
             ]
       },
