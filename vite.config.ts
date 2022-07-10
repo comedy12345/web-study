@@ -10,6 +10,7 @@ const serveConfig={
     vuejsx({}),
     createSvgIconsPlugin({iconDirs:[resolve(process.cwd(),'public/icons')],symbolId:'icon-[dir]-[name]'})
   ],
+  
   resolve:{
     alias:{
       '@':resolve(__dirname,'src'),

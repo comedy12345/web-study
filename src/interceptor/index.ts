@@ -7,7 +7,7 @@ router.beforeEach((to, from) => {
       
       getPath("","",selectdOpenKeys,editSelectdOpenKeys,false,to.path);
 
-      if(!routeHistorys.find(item=>item.path===to.path)){
+      if(!routeHistorys.find((item: { path: string; })=>item.path===to.path)){
             routeHistorys.push({id:String(new Date().getTime()),name:String(to.name) ,path:to.path})
       }
       return true

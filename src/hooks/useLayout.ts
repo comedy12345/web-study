@@ -12,7 +12,7 @@ export function useLayout() {
             }
             const removeRouteHistory = (id: string) => {
                   return () => {
-                        state.routeHistorys = state.routeHistorys.filter(item => item.id !== id)
+                        state.routeHistorys = state.routeHistorys.filter((item: { id: string; }) => item.id !== id)
                   }
             }
             return {
