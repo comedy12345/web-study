@@ -29,7 +29,7 @@ export default class CustomDragDrop {
       private drop?: IDragstart;
       private dom?: HTMLElement;
       private delayed?: number;
-      private startMove?: number;
+      // private startMove?: number;
 
 
       constructor(option: IOption) {
@@ -41,7 +41,7 @@ export default class CustomDragDrop {
             if (!this.delayed) {
                   this.delayed = 100;
             }
-            this.startMove = 0;
+            // this.startMove = 0;
             const dom: HTMLElement = document.querySelector(this.el)!;
             this.init(dom);
             this.dom = dom;
@@ -143,8 +143,8 @@ export default class CustomDragDrop {
                         }
 
                         setTimeout(() => {
-                              newChildren[firstIndex] = lastDom;
-                              newChildren[lastIndex] = firstDom;
+                              // newChildren[firstIndex] = lastDom;
+                              // newChildren[lastIndex] = firstDom;
                               // 改变真实dom元素位置（怀疑有bug）
                               this.dom?.replaceChild(firstDom, lastDom);
                               this.dom?.insertBefore(lastDom, this.dom.children[firstIndex])
