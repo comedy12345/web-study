@@ -2,16 +2,6 @@
 <template>
   <div class="draggable-study">
     <a-table id="table" :dataSource="dataSource" :columns="columns" />
-    <div class="div">
-      <div v-for="item in dataSource" :key="item.key">
-        {{ item }}
-      </div>
-    </div>
-    <ul class="ul">
-      <li v-for="item in dataSource" :key="item.key">
-        {{ item }}
-      </li>
-    </ul>
   </div>
 </template>
 <script lang="ts">
@@ -23,28 +13,14 @@ import CustomDragDrop from './CustomDragDrop'
 onMounted(() => {
   new CustomDragDrop({
     el: '.ant-table-tbody',
+    delayed: 500,
     drop: ({ firstIndex, lastIndex }) => {
       const startObj = { ...dataSource.value[firstIndex!] }
       dataSource.value[firstIndex!] = dataSource.value[lastIndex!]
       dataSource.value[lastIndex!] = startObj
     },
   })
-  new CustomDragDrop({
-    el: '.div',
-    drop: ({ firstIndex, lastIndex }) => {
-      const startObj = { ...dataSource.value[firstIndex!] }
-      dataSource.value[firstIndex!] = dataSource.value[lastIndex!]
-      dataSource.value[lastIndex!] = startObj
-    },
-  })
-  new CustomDragDrop({
-    el: '.ul',
-    drop: ({ firstIndex, lastIndex }) => {
-      const startObj = { ...dataSource.value[firstIndex!] }
-      dataSource.value[firstIndex!] = dataSource.value[lastIndex!]
-      dataSource.value[lastIndex!] = startObj
-    },
-  })
+
 })
 
 const dataSource = ref([
@@ -78,6 +54,37 @@ const dataSource = ref([
     age: 5,
     address: '111',
   },
+  {
+    key: '6',
+    name: '胡彦祖6',
+    age: 6,
+    address: '6',
+  },
+  {
+    key: '7',
+    name: '胡彦祖7',
+    age: 7,
+    address: '7',
+  },
+  {
+    key: '8',
+    name: '胡彦祖8',
+    age: 8,
+    address: '8',
+  },
+  {
+    key: '9',
+    name: '胡彦祖9',
+    age: 9,
+    address: '9',
+  },
+  {
+    key: '10',
+    name: '胡彦祖10',
+    age: 10,
+    address: '10',
+  },
+
 ])
 
 const columns = [

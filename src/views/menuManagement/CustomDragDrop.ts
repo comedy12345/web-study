@@ -29,7 +29,7 @@ export default class CustomDragDrop {
       private drop?: IDragstart;
       private dom?: HTMLElement;
       private delayed?: number;
-      // private startMove?: number;
+      private startMove?: boolean;
 
 
       constructor(option: IOption) {
@@ -41,7 +41,7 @@ export default class CustomDragDrop {
             if (!this.delayed) {
                   this.delayed = 100;
             }
-            // this.startMove = 0;
+            this.startMove = true;
             const dom: HTMLElement = document.querySelector(this.el)!;
             this.init(dom);
             this.dom = dom;
@@ -73,23 +73,32 @@ export default class CustomDragDrop {
       }
 
       private dragstartHander(...args: [Element, any]) {
-            const { index, dragEvent } = this.getDataTransfer(args, 'set');
-            this.dragstart && this.dragstart({ firstIndex: index, dragEvent });
+            if (this.startMove) {
+                  const { index, dragEvent } = this.getDataTransfer(args, 'set');
+                  this.dragstart && this.dragstart({ firstIndex: index, dragEvent });
+            }
+
       }
 
       private dragoverHander(...args: [Element, any]) {
-            const { firstIndex, dragEvent } = this.getDataTransfer(args, 'get');
-            dragEvent.preventDefault();
-            this.dragover && this.dragover({ firstIndex, dragEvent });
+            if (this.startMove) {
+                  const { firstIndex, dragEvent } = this.getDataTransfer(args, 'get');
+                  dragEvent.preventDefault();
+                  this.dragover && this.dragover({ firstIndex, dragEvent });
+            }
+
       }
 
       private async dropHander(...args: [Element, any]) {
-            const { index, firstIndex, dragEvent } = this.getDataTransfer(args, 'get');
-            const moveDomRes = await this.moveDom(firstIndex, index).catch(res => res);
-            if (moveDomRes === 'success') {
-                  this.drop && this.drop({ firstIndex, lastIndex: index, dragEvent });
+            if (this.startMove) {
+                  this.startMove = false;
+                  const { index, firstIndex, dragEvent } = this.getDataTransfer(args, 'get');
+                  const moveDomRes = await this.moveDom(firstIndex, index).catch(res => res);
+                  if (moveDomRes === 'success') {
+                        this.drop && this.drop({ firstIndex, lastIndex: index, dragEvent });
+                        this.startMove = true;
+                  }
             }
-
       }
 
 
@@ -120,7 +129,7 @@ export default class CustomDragDrop {
                         let lastDom: any = newChildren[lastIndex];
                         // 从后往前提
                         if (firstIndex > lastIndex) {
-                              for (let index = firstIndex; index > lastIndex; index--) {
+                              for (let index = lastIndex; index <= firstIndex; index++) {
                                     const element: any = newChildren[index];
                                     element.style.transition = `transform ${this.delayed! / 1000}s`;
                                     element.style.transform = `translateY(${calculation.otherMove}px)`;
@@ -143,12 +152,8 @@ export default class CustomDragDrop {
                         }
 
                         setTimeout(() => {
-                              // newChildren[firstIndex] = lastDom;
-                              // newChildren[lastIndex] = firstDom;
-                              // 改变真实dom元素位置（怀疑有bug）
                               this.dom?.replaceChild(firstDom, lastDom);
-                              this.dom?.insertBefore(lastDom, this.dom.children[firstIndex])
-
+                              this.dom?.insertBefore(lastDom, this.dom.children[lastIndex]);
                               newChildren.forEach((item => {
                                     (item as any).style.transition = 'none';
                                     (item as any).style.transform = 'translateY(0px)';
@@ -163,7 +168,7 @@ export default class CustomDragDrop {
             })
 
       }
-      // 计算每个元素需要移动的距离(怀疑有bug)
+      // 计算每个元素需要移动的距离
       private calculation(dom: Element, firstIndex: number, lastIndex: number) {
             return [...dom?.children!]
                   .map(item => item.clientHeight)
