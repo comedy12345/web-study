@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import Antd from 'ant-design-vue';
+// import Antd from 'ant-design-vue';
 import App from './App.vue';
 import { router } from '@/route/index';
 import { createPinia } from 'pinia';
@@ -11,7 +11,7 @@ import '@/interceptor';
 const app = createApp(App);
 
 app.use(router);
-app.use(Antd);
+// app.use(Antd);
 app.use(createPinia());
 app.component('svg-icon', svgIcon);
 app.mount('#app');

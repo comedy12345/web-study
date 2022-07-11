@@ -1,19 +1,25 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vuejsx from '@vitejs/plugin-vue-jsx';
-import {resolve} from 'path';
+import { resolve } from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-
-const serveConfig={
+import Components from 'unplugin-vue-components/vite';
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+const serveConfig = {
   plugins: [
-    vue(), 
+    vue(),
     vuejsx({}),
-    createSvgIconsPlugin({iconDirs:[resolve(process.cwd(),'public/icons')],symbolId:'icon-[dir]-[name]'})
+    createSvgIconsPlugin({ iconDirs: [resolve(process.cwd(), 'public/icons')], symbolId: 'icon-[dir]-[name]' }),
+    Components({
+      resolvers: [
+        AntDesignVueResolver({ importStyle: true, resolveIcons: true })
+      ]
+    })
   ],
-  
-  resolve:{
-    alias:{
-      '@':resolve(__dirname,'src'),
+
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
     }
   },
 }
@@ -26,18 +32,18 @@ export default defineConfig(({ command, mode }) => {
   } else {
     return {
       ...serveConfig,
-      base:'./',
-      build:{
-        rollupOptions:{
-          output:{
-            manualChunks:(id)=>{
+      base: './',
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks: (id) => {
               if (id.includes('node_modules')) {
-                　　      return id.toString().split('node_modules/')[1].split('/')[0].toString();
-                　　  }
+                return id.toString().split('node_modules/')[1].split('/')[0].toString();
+              }
             },
-        　　entryFileNames: 'js/[name].[hash].js',
-        　　chunkFileNames: 'js/[name].[hash].js',
-        　　assetFileNames: '[ext]/[name].[hash].[ext]',
+            entryFileNames: 'js/[name].[hash].js',
+            chunkFileNames: 'js/[name].[hash].js',
+            assetFileNames: '[ext]/[name].[hash].[ext]',
           }
         }
       }

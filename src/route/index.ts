@@ -1,57 +1,62 @@
-import  { createRouter,RouteRecordRaw,createWebHashHistory } from "vue-router";
+import { createRouter, RouteRecordRaw, createWebHashHistory } from "vue-router";
 
-export const routes:RouteRecordRaw[] =[
+export const routes: RouteRecordRaw[] = [
       {
-            path:'',
-            component:() => import('@/views/layout/index.vue'),
-            redirect:'dashboard',
-            children:[
+            path: '',
+            component: () => import('@/views/layout/index.vue'),
+            redirect: 'dashboard',
+            children: [
                   {
-                        name:'首页',
-                        path:'/dashboard',
-                        component:() => import('@/views/home/index.vue')   
+                        name: '首页',
+                        path: '/dashboard',
+                        component: () => import('@/views/home/index.vue')
                   },
                   {
-                        name:'测试一',
-                        path:'/test1',
-                        redirect:'/test1/sonMenu',
-                        component:() => import('@/views/test/index.vue'),
-                        children:[
-                              { 
-                                    name:'子菜单',
-                                    path:'/test1/sonMenu',
-                                    redirect:'/test1/sonMenu/three',
-                                    component:() => import('@/views/test/test1-1/index.vue'),
-                                    children:[
+                        name: '测试一',
+                        path: '/test1',
+                        redirect: '/test1/sonMenu',
+                        component: () => import('@/views/test/index.vue'),
+                        children: [
+                              {
+                                    name: '子菜单',
+                                    path: '/test1/sonMenu',
+                                    redirect: '/test1/sonMenu/three',
+                                    component: () => import('@/views/test/test1-1/index.vue'),
+                                    children: [
                                           {
-                                                name:'子菜单3层',
-                                                path:'/test1/sonMenu/three',
-                                                component:() => import('@/views/test/test1-1/three/index.vue'),  
+                                                name: '子菜单3层',
+                                                path: '/test1/sonMenu/three',
+                                                component: () => import('@/views/test/test1-1/three/index.vue'),
                                           }
                                     ]
                               },
-                              { 
-                                    name:'子菜单二',
-                                    path:'/test1/sonMenu2',
-                                    component:() => import('@/views/test/test1-2/index.vue') 
+                              {
+                                    name: '子菜单二',
+                                    path: '/test1/sonMenu2',
+                                    component: () => import('@/views/test/test1-2/index.vue')
                               }
                         ],
                   },
                   {
-                        name:'测试二',
-                        path:'/test2',
-                        component:() => import('@/views/test2/index.vue')
+                        name: '测试二',
+                        path: '/test2',
+                        component: () => import('@/views/test2/index.vue')
                   },
                   {
-                        name:'菜单管理',
-                        path:'/menuMannagement',
-                        component:() => import('@/views/menuManagement/index.vue')
+                        name: '拖拽排序表格',
+                        path: '/tableShort',
+                        component: () => import('@/views/dragDropShort/index.vue')
+                  },
+                  {
+                        name: '拖拽树形结构',
+                        path: '/treeDragDrop',
+                        component: () => import('@/views/menuManagement/index.vue')
                   }
             ]
       },
-      
+
 ];
 export const router = createRouter({
       history: createWebHashHistory(),
-      routes, 
+      routes,
 })

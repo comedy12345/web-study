@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, PropType, toRefs } from "vue";
 import { MenuItem, SubMenu } from 'ant-design-vue';
-import { RouteRecordRaw, RouterLink, useRoute } from "vue-router";
+import { RouteRecordRaw, RouterLink } from "vue-router";
 const MyMenuItem = defineComponent({
       props: {
             routesMenu: {
@@ -11,7 +11,6 @@ const MyMenuItem = defineComponent({
       },
       setup(props) {
             const { routesMenu } = toRefs(props);
-            const route = useRoute();
             return () => (
                   routesMenu.value.map(item => {
                         if (item.children) {

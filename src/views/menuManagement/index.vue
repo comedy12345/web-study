@@ -1,110 +1,65 @@
-
 <template>
-  <div class="draggable-study">
-    <a-table id="table" :dataSource="dataSource" :columns="columns" />
-  </div>
+      <a-tree v-model:expandedKeys="expandedKeys" v-model:selectedKeys="selectedKeys" v-model:checkedKeys="checkedKeys"
+            checkable :tree-data="treeData">
+            <template #title="{ title, key }">
+                  <span v-if="key === '0-0-1-0'" style="color: #1890ff">{{ title }}</span>
+                  <template v-else>{{ title }}</template>
+            </template>
+      </a-tree>
 </template>
 <script lang="ts">
+import type { TreeProps } from 'ant-design-vue';
+import { defineComponent, ref, watch, onMounted } from 'vue';
+import CustomDragDrop from '@/utils/CustomDragDrop'
+
+const treeData: TreeProps['treeData'] = [
+      {
+            title: 'parent 1',
+            key: '0-0',
+            children: [
+                  {
+                        title: 'parent 1-0',
+                        key: '0-0-0',
+                        disabled: true,
+                        children: [
+                              { title: 'leaf', key: '0-0-0-0', disableCheckbox: true },
+                              { title: 'leaf', key: '0-0-0-1' },
+                        ],
+                  },
+                  {
+                        title: 'parent 1-1',
+                        key: '0-0-1',
+                        children: [{ key: '0-0-1-0', title: 'sss' }],
+                  },
+            ],
+      },
+];
+
+export default defineComponent({
+      setup() {
+            const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+            const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+            const checkedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+            watch(expandedKeys, () => {
+                  console.log('expandedKeys', expandedKeys);
+            });
+            watch(selectedKeys, () => {
+                  console.log('selectedKeys', selectedKeys);
+            });
+            watch(checkedKeys, () => {
+                  console.log('checkedKeys', checkedKeys);
+            });
+            onMounted(() => {
+                  new CustomDragDrop({
+                        el: '.ant-tree-list-holder-inner'
+                  })
+            })
+            return {
+                  treeData,
+                  expandedKeys,
+                  selectedKeys,
+                  checkedKeys,
+            };
+      },
+});
 </script>
-
-<script lang="ts" setup>
-import { ref, onMounted } from 'vue-demi'
-import CustomDragDrop from './CustomDragDrop'
-onMounted(() => {
-  new CustomDragDrop({
-    el: '.ant-table-tbody',
-    delayed: 500,
-    drop: ({ firstIndex, lastIndex }) => {
-      const startObj = { ...dataSource.value[firstIndex!] }
-      dataSource.value[firstIndex!] = dataSource.value[lastIndex!]
-      dataSource.value[lastIndex!] = startObj
-    },
-  })
-
-})
-
-const dataSource = ref([
-  {
-    key: '1',
-    name: '胡彦斌1111111111',
-    age: 1,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '2',
-    name: '胡彦祖',
-    age: 2,
-    address: '西湖区湖底公园1号1111111111',
-  },
-  {
-    key: '3',
-    name: '胡彦祖sadasd adasdasd',
-    age: 3,
-    address: '西湖asd区湖底公园asd1号1111111111',
-  },
-  {
-    key: '4',
-    name: '胡彦祖',
-    age: 4,
-    address: '西湖区湖底000000000000111111111111111111111111111111111111111111111111111111111111111111111111110000公园1号1111111111111111111111111111111111111111111111111111',
-  },
-  {
-    key: '5',
-    name: '胡彦祖',
-    age: 5,
-    address: '111',
-  },
-  {
-    key: '6',
-    name: '胡彦祖6',
-    age: 6,
-    address: '6',
-  },
-  {
-    key: '7',
-    name: '胡彦祖7',
-    age: 7,
-    address: '7',
-  },
-  {
-    key: '8',
-    name: '胡彦祖8',
-    age: 8,
-    address: '8',
-  },
-  {
-    key: '9',
-    name: '胡彦祖9',
-    age: 9,
-    address: '9',
-  },
-  {
-    key: '10',
-    name: '胡彦祖10',
-    age: 10,
-    address: '10',
-  },
-
-])
-
-const columns = [
-  {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: '住址',
-    dataIndex: 'address',
-    key: 'address',
-  },
-]
-</script>
-
-<style lang="scss" scoped>
-</style>
