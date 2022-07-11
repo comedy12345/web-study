@@ -7,8 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    ATable: typeof import('ant-design-vue/es')['Table']
-    ATree: typeof import('ant-design-vue/es')['Tree']
     MenuItem: typeof import('./src/components/MenuItem/index.vue')['default']
     MyBreadcrumb: typeof import('./src/components/MyBreadcrumb/index.vue')['default']
     MyHeader: typeof import('./src/components/MyHeader/index.vue')['default']

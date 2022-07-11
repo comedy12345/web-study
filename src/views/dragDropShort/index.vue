@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue-demi'
+import { ref, onMounted } from 'vue'
 import CustomDragDrop from '@/utils/CustomDragDrop'
 
 onMounted(() => {
